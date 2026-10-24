@@ -6,7 +6,7 @@
 <title>4박5일 한국여행</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
 <style>
-:root{--bg:#f6f7f9;--card:#fff;--tx:#1d2330;--mut:#6b7385;--line:#e4e7ee;--ac:#3b6cf6;--acs:#e8eefe;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{--bg:#f6f7f9;--card:#fff;--tx:#1d2330;--mut:#6b7385;--line:#e4e7ee;--ac:#3b6cf6;--acs:#e8eefe;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset[...]
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12151c;--card:#1b202b;--tx:#e8ebf2;--mut:#9aa3b5;--line:#2a3140;--ac:#7d9bff;--acs:#232c47;color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#12151c;--card:#1b202b;--tx:#e8ebf2;--mut:#9aa3b5;--line:#2a3140;--ac:#7d9bff;--acs:#232c47;color-scheme:dark}
 *{box-sizing:border-box}
@@ -49,7 +49,7 @@ footer{text-align:center;color:var(--mut);font-size:12px;margin-top:30px}
 
 <div id="app">
 <header><h1>🇰🇷 4박5일 한국여행</h1><p>2026.10.31 (토) – 11.04 (수) · 인천 / 서울</p>
-<div class="legend"><span>✈️ 항공</span><span>🚇 지하철·전철</span><span>🏨 숙박</span><span>🍽️ 식사</span><span>📍 관광</span><span>🤝 만남</span><span>🚗 렌터카</span><span>⛴️ 한강버스</span></div></header>
+<div class="legend"><span>✈️ 항공</span><span>🚇 지하철·전철</span><span>🏨 숙박</span><span>🍽️ 식사</span><span>📍 관광</span><span>🤝 만남</span><span>🚗 렌터카</span></div>
 <main id="main"></main>
 <footer>항목을 눌러 상세정보를 확인하세요</footer>
 </div>
@@ -65,12 +65,12 @@ var D=[
 {n:"DAY 2",d:"11/01 (일)",h:"부평 산책 · 생일파티 · 인사동",i:[
 ["🏨","토요코인 부평 체크아웃","10:00",["짐은 맡겨두고 부평 일대 산책"]],
 ["🤝","태X형 차 픽업","10:00 부평 → 15:00 인사동",["부평에서 태X형 차 픽업","물건을 맡겨놓고 부평 일대 산책","15:00 인사동 도착"]],
-["🍽️","생일파티 (까군)","12:00 – 14:00",["까군 생일파티"]],
+["🍽️","생일파티 (까군+오형)","변경(저녁때쯤)",["까군+오형 생일파티","시간 변경: 저녁때쯤"]],
 ["🏨","N285호텔 인사동 체크인","15:00",["체크인 15:00","체크아웃 11/3(화) 11:00"]]
 ]},
 {n:"DAY 3",d:"11/02 (월)",h:"서울 관광 · 한강버스",i:[
 ["🍽️","점심 · 오형 내외분","장어 / 양갈비",["호텔로 픽업","장어 또는 양갈비 중 선택"]],
-["📍","인사동 · 소격동 · 경복궁 · 창경궁 · 북촌한옥","인사동 호텔에서 출발",["인사동 호텔 → 인사동 → 소격동","경복궁 → 창경궁 → 북촌한옥마을","점심은 오형 내외분과"]],
+["📍","인사동 · 소격동 · 경복궁 · 창경궁 · 북촌한옥","인사동 호텔에서 출발",["인사동 호텔 → 인사동 → 소격동","경복궁 → 창경궁 → 북촌한옥"]],
 ["📍","하늘공원","북촌한옥 → 하늘공원",["한강라면은 배 타기 전에"]],
 ["⛴️","한강버스 (마곡 → 잠실)","마곡선착장 탑승",["하늘공원 → 마곡선착장","마곡 → 잠실 한강 유람"]],
 ["📍","잠실 롯데타워","잠실",["한강버스 하선 후 이동"]],
@@ -89,24 +89,24 @@ var D=[
 ["✈️","인천 → 도쿄","08:35 (T1) → 10:55 (T2)",["트XXX항공","인천 08:35 T1 출발","도쿄 10:55 T2 도착"]]
 ]}
 ];
-var FOOD=[["🍽️","먹고 싶은 음식","김밥 · 비빔밥 · 해장국 · 삼겹살 · 냉면 · 이삭토스트 · 한강라면",["김밥","비빔밥","해장국","삼겹살","냉면","이삭토스트","한강라면 (유람선 타기 전)"]]];
+var FOOD=[["🍽️","먹고 싶은 음식","김밥 · 비빔밥 · 해장국 · 삼겹살 · 냉면 · 이삭토스트 · 한강라면",["김밥","비빔밥","해장국","삼겹살","냉면","이삭토스트","한강라면"]]];
 function row(r){
- var b=r[3].map(function(x){return x.indexOf("<div")===0?x:"<li>"+x+"</li>"}).join("");
- b=b.replace(/(<li>.*<\/li>)/,"<ul>$1</ul>");
- return '<details><summary><div class="ic">'+r[0]+'</div><div class="t"><div>'+r[1]+'</div><span>'+r[2]+'</span></div></summary><div class="body">'+b+'</div></details>';
+  var b=r[3].map(function(x){return x.indexOf("<div")===0?x:"<li>"+x+"</li>"}).join("");
+  b=b.replace(/(<li>.*<\/li>)/,"<ul>$1</ul>");
+  return '<details><summary><div class="ic">'+r[0]+'</div><div class="t"><div>'+r[1]+'</div><span>'+r[2]+'</span></div></summary><div class="body">'+b+'</div></details>';
 }
 function render(){
- var h="";
- D.forEach(function(x){h+='<section class="day"><div class="dh"><b>'+x.n+'</b><h2>'+x.h+'</h2><small>'+x.d+'</small></div>'+x.i.map(row).join("")+'</section>';});
- h+='<section class="day"><div class="dh"><b>FOOD</b><h2>식사 리스트</h2></div>'+FOOD.map(row).join("")+'</section>';
- document.getElementById("main").innerHTML=h;
+  var h="";
+  D.forEach(function(x){h+='<section class="day"><div class="dh"><b>'+x.n+'</b><h2>'+x.h+'</h2><small>'+x.d+'</small></div>'+x.i.map(row).join("")+'</section>';});
+  h+='<section class="day"><div class="dh"><b>FOOD</b><h2>식사 리스트</h2></div>'+FOOD.map(row).join("")+'</section>';
+  document.getElementById("main").innerHTML=h;
 }
 function enter(){
- var v=document.getElementById("pw").value;
- if(window.CryptoJS&&CryptoJS.MD5(v.trim()).toString()===HASH){
-  document.getElementById("lock").style.display="none";
-  document.getElementById("app").style.display="block";render();
- }else{document.getElementById("err").textContent="비밀번호가 올바르지 않습니다";}
+  var v=document.getElementById("pw").value;
+  if(window.CryptoJS&&CryptoJS.MD5(v.trim()).toString()===HASH){
+   document.getElementById("lock").style.display="none";
+   document.getElementById("app").style.display="block";render();
+  }else{document.getElementById("err").textContent="비밀번호가 올바르지 않습니다";}
 }
 document.getElementById("go").onclick=enter;
 document.getElementById("pw").onkeydown=function(e){if(e.key==="Enter")enter();};
