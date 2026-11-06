@@ -45,7 +45,13 @@ footer{text-align:center;color:var(--mut);font-size:12px;margin-top:30px}
 .expense-table thead th{background:var(--acs);font-weight:650}
 .expense-table td.amount,.expense-table td.people{text-align:right}
 .expense-table tbody tr:last-child td{border-bottom:0}
-.expense-table .total-row th,.expense-table .total-row td{font-weight:650;background:var(--acs)}
+.expense-summary{width:100%;table-layout:fixed;border-collapse:collapse;margin-top:12px;background:var(--card);font-size:13px}
+.expense-summary col:nth-child(1){width:30%}
+.expense-summary col:nth-child(2){width:20%}
+.expense-summary col:nth-child(3){width:32%}
+.expense-summary col:nth-child(4){width:18%}
+.expense-summary th,.expense-summary td{padding:9px 8px;border:1px solid var(--line);text-align:left;white-space:normal;overflow-wrap:anywhere}
+.expense-summary .total-row th,.expense-summary .total-row td{color:var(--tx);font-weight:650;background:var(--acs);border-top:1px solid var(--ac)}
 </style>
 </head>
 <body>
@@ -68,6 +74,10 @@ footer{text-align:center;color:var(--mut);font-size:12px;margin-top:30px}
 <tbody id="expense-rows"></tbody>
 </table>
 </div>
+<table class="expense-summary" aria-label="정산 요약">
+<colgroup><col><col><col><col></colgroup>
+<tbody id="expense-summary-rows"></tbody>
+</table>
 </section>
 <footer>항목을 눌러 상세정보를 확인하세요</footer>
 </div>
@@ -141,6 +151,7 @@ var EXPENSES=[
 ];
 function renderExpenses(){
   var tbody=document.getElementById("expense-rows");
+  var summaryBody=document.getElementById("expense-summary-rows");
   EXPENSES.forEach(function(item,index){
     var tr=document.createElement("tr");
     [index+1,item[0],item[1],item[2],item[3].toLocaleString("ko-KR"),item[4],item[5],item[6],item[7].toLocaleString("ko-KR")].forEach(function(value,column){
@@ -156,14 +167,14 @@ function renderExpenses(){
     var tr=document.createElement("tr");
     tr.className="total-row";
     var label=document.createElement("th");
-    label.colSpan=4;label.textContent=total[0];tr.appendChild(label);
+    label.textContent=total[0];tr.appendChild(label);
     var amount=document.createElement("td");
     amount.textContent=Number(total[1]).toLocaleString("ko-KR");amount.className="amount";tr.appendChild(amount);
     var spacer=document.createElement("td");
-    spacer.colSpan=3;spacer.textContent=total[2];tr.appendChild(spacer);
+    spacer.textContent=total[2];tr.appendChild(spacer);
     var share=document.createElement("td");
     share.textContent=Number(total[3]).toLocaleString("ko-KR");share.className="amount";tr.appendChild(share);
-    tbody.appendChild(tr);
+    summaryBody.appendChild(tr);
   });
 }
 function row(r){
