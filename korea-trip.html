@@ -130,6 +130,8 @@ var EXPENSES=[
 ["11/3","목욕탕","백상사우나",24000,"-",2,"공동",12000],
 ["11/2","전복삼계탕","을지삼계탕",50000,"-",2,"공동",25000],
 ["11/2","음료수","한강버스",2500,"-",2,"공동",1250],
+["11/2","한강라면","한강버스",9000,"-",2,"공동",4500,"13(추가)"],
+["11/2","한강버스","한강버스",6000,"-",2,"공동",3000,"13(추가)"],
 ["11/2","물냉면,회냉면","오정동함흥집",30000,"-",2,"공동",15000],
 ["11/2","관광버스","노랑풍선버스",54000,"-",2,"공동",27000],
 ["11/2","제육덥밥,돈까스","정독도서관",15000,"-",2,"공동",7500],
@@ -152,9 +154,11 @@ var EXPENSES=[
 function renderExpenses(){
   var tbody=document.getElementById("expense-rows");
   var summaryBody=document.getElementById("expense-summary-rows");
-  EXPENSES.forEach(function(item,index){
+  var itemNumber=0;
+  EXPENSES.forEach(function(item){
+    var displayNumber=item[8]||++itemNumber;
     var tr=document.createElement("tr");
-    [index+1,item[0],item[1],item[2],item[3].toLocaleString("ko-KR"),item[4],item[5],item[6],item[7].toLocaleString("ko-KR")].forEach(function(value,column){
+    [displayNumber,item[0],item[1],item[2],item[3].toLocaleString("ko-KR"),item[4],item[5],item[6],item[7].toLocaleString("ko-KR")].forEach(function(value,column){
       var td=document.createElement("td");
       td.textContent=value;
       if(column===4||column===8)td.className="amount";
@@ -163,7 +167,7 @@ function renderExpenses(){
     });
     tbody.appendChild(tr);
   });
-  [["전체 합계","494620","최종 정산액","266270"],["공동 사용 합계","456700","1인당 금액","228350"],["개인 사용 합계","37920","동반자 1인 사용금액","37920"]].forEach(function(total){
+  [["전체 합계","509620","최종 정산액","273770"],["공동 사용 합계","471700","1인당 금액","235850"],["개인 사용 합계","37920","동반자 1인 사용금액","37920"]].forEach(function(total){
     var tr=document.createElement("tr");
     tr.className="total-row";
     var label=document.createElement("th");

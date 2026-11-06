@@ -131,6 +131,8 @@ var EXPENSES=[
 ["11/3","銭湯","ペクサンサウナ",24000,"-",2,"共同",12000],
 ["11/2","アワビ入り参鶏湯","ウルチ参鶏湯",50000,"-",2,"共同",25000],
 ["11/2","飲み物","漢江バス",2500,"-",2,"共同",1250],
+["11/2","漢江ラーメン","漢江バス",9000,"-",2,"共同",4500,"13(追加)"],
+["11/2","漢江バス乗車券","漢江バス",6000,"-",2,"共同",3000,"13(追加)"],
 ["11/2","水冷麺、刺身冷麺","オジョン咸興冷麺",30000,"-",2,"共同",15000],
 ["11/2","観光バス","ノランプンソンバス",54000,"-",2,"共同",27000],
 ["11/2","豚肉炒め丼、とんかつ","チョンドク図書館",15000,"-",2,"共同",7500],
@@ -153,9 +155,11 @@ var EXPENSES=[
 function renderExpenses(){
  var tbody=document.getElementById("expense-rows");
  var summaryBody=document.getElementById("expense-summary-rows");
- EXPENSES.forEach(function(item,index){
+ var itemNumber=0;
+ EXPENSES.forEach(function(item){
+  var displayNumber=item[8]||++itemNumber;
   var tr=document.createElement("tr");
-  [index+1,item[0],item[1],item[2],item[3].toLocaleString("ja-JP"),item[4],item[5],item[6],item[7].toLocaleString("ja-JP")].forEach(function(value,column){
+  [displayNumber,item[0],item[1],item[2],item[3].toLocaleString("ja-JP"),item[4],item[5],item[6],item[7].toLocaleString("ja-JP")].forEach(function(value,column){
    var td=document.createElement("td");
    td.textContent=value;
    if(column===4||column===8)td.className="amount";
@@ -164,7 +168,7 @@ function renderExpenses(){
   });
   tbody.appendChild(tr);
  });
- [["合計","494620","最終精算額","266270"],["共同利用合計","456700","1人あたりの金額","228350"],["個人利用合計","37920","同行者1人分の利用額","37920"]].forEach(function(total){
+ [["合計","509620","最終精算額","273770"],["共同利用合計","471700","1人あたりの金額","235850"],["個人利用合計","37920","同行者1人分の利用額","37920"]].forEach(function(total){
   var tr=document.createElement("tr");
   tr.className="total-row";
   var label=document.createElement("th");
