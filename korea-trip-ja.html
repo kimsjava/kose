@@ -37,6 +37,15 @@ details[open] summary::after{transform:rotate(90deg)}
 .body ul{margin:0;padding-left:16px}.body li{margin:2px 0}
 .note{background:var(--acs);color:var(--tx);border-radius:10px;padding:9px 12px;font-size:13px;margin:6px 0 10px}
 footer{text-align:center;color:var(--mut);font-size:12px;margin-top:30px}
+.expenses{margin-top:36px}
+.expenses h2{font-size:19px;margin:0 0 10px}
+.expense-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+.expense-table{width:100%;min-width:920px;border-collapse:collapse;font-size:13px}
+.expense-table th,.expense-table td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+.expense-table thead th{background:var(--acs);font-weight:650}
+.expense-table td.amount,.expense-table td.people{text-align:right}
+.expense-table tbody tr:last-child td{border-bottom:0}
+.expense-table .total-row th,.expense-table .total-row td{font-weight:650;background:var(--acs)}
 </style>
 </head>
 <body>
@@ -51,6 +60,15 @@ footer{text-align:center;color:var(--mut);font-size:12px;margin-top:30px}
 <header><h1>🇰🇷 4泊5日 韓国旅行</h1><p>2026.10.31(土) – 11.04(水) · 仁川 / ソウル</p>
 <div class="legend"><span>✈️ 航空券</span><span>🚇 電車・地下鉄</span><span>🏨 宿泊</span><span>🍽️ 食事</span><span>📍 観光</span><span>🤝 待ち合わせ</span><span>🚗 レンタカー</span><span>⛴️ 漢江バス</span></div></header>
 <main id="main"></main>
+<section class="expenses" aria-labelledby="expenses-title">
+<h2 id="expenses-title">支出一覧</h2>
+<div class="expense-scroll" tabindex="0" aria-label="支出一覧。左右にスクロールできます">
+<table class="expense-table">
+<thead><tr><th>番号</th><th>日付</th><th>品目</th><th>店舗</th><th>金額(ウォン)</th><th>備考</th><th>人数</th><th>区分</th><th>同行者負担額(ウォン)</th></tr></thead>
+<tbody id="expense-rows"></tbody>
+</table>
+</div>
+</section>
 <footer>項目をタップすると詳細が表示されます</footer>
 </div>
 
@@ -88,6 +106,66 @@ var D=[
 ]}
 ];
 var FOOD=[["🍽️","食べたいもの","キンパ・ビビンバ・ヘジャンクク・サムギョプサル・冷麺・イサックトースト・漢江ラーメン",["キンパ(韓国のり巻き)","ビビンバ","ヘジャンクク(酔い覚ましスープ)","サムギョプサル","冷麺","イサックトースト","漢江ラーメン(遊覧船に乗る前に)"]]];
+var EXPENSES=[
+["11/4","ロッテのペペロ","ロッテマート",25920,"31,920-6,000(免税)",1,"個人",25920],
+["11/4","パン","パリバゲット(仁川空港)",14600,"-",2,"共同",7300],
+["11/4","キムチチゲ、スンドゥブチゲ","CJフレッシュウェイ(仁川空港)",23500,"-",2,"共同",11750],
+["11/3","エビキンパ、ジャージャートッポッキ、おでん、ビール","クァンパンパルトゥクキンパ",36700,"",2,"共同",18350],
+["11/3","空港鉄道","空港鉄道",26000,"-",2,"共同",13000],
+["11/3","飲み物","GS25",3800,"-",2,"共同",1900],
+["11/3","甘辛チキン、フライドチキン(ハーフ＆ハーフ)","伝説のチキン",28000,"-",2,"共同",14000],
+["11/3","たい焼き","CU",5000,"-",2,"共同",2500],
+["11/3","コーヒー","コンポーズコーヒー",5600,"-",2,"共同",2800],
+["11/3","コムタン、干し菜ヘジャンクク、ユクジョン×2","ユクジョンクッパ",5900,"-",2,"共同",2950],
+["11/3","銭湯","ペクサンサウナ",24000,"-",2,"共同",12000],
+["11/2","アワビ入り参鶏湯","ウルチ参鶏湯",50000,"-",2,"共同",25000],
+["11/2","飲み物","漢江バス",2500,"-",2,"共同",1250],
+["11/2","水冷麺、刺身冷麺","オジョン咸興冷麺",30000,"-",2,"共同",15000],
+["11/2","観光バス","ノランプンソンバス",54000,"-",2,"共同",27000],
+["11/2","豚肉炒め丼、とんかつ","チョンドク図書館",15000,"-",2,"共同",7500],
+["11/2","黒豆豆乳、バナナ牛乳","チョンドク図書館",3600,"-",2,"共同",1800],
+["11/1","湿布","CU",4300,"-",2,"共同",2150],
+["11/1","アイスクリーム","ブオンイジェラート",33500,"うなぎ焼きのデザート",2,"共同",16750],
+["11/1","飲み物","GS25",1300,"-",2,"共同",650],
+["11/1","キクイモチップス","マンドゥヤ鍋",5900,"-",2,"共同",2950],
+["11/1","飲み物","CU",2600,"-",2,"共同",1300],
+["10/31","タクシー","タクシー",4600,"富平市場→東横INNホテル",2,"共同",2300],
+["10/31","ビール、お菓子、飲み物","セブン-イレブン",24300,"-",2,"共同",12150],
+["10/31","豚の背骨スープ、干し菜ヘジャンクク","ピョンチョンスンデ",4600,"東横INNホテル→富平市場",2,"共同",2300],
+["10/31","写真","スパレックス汗蒸幕",5000,"-",2,"共同",2500],
+["10/31","シッケ、昔ながらのコーヒー、石焼き卵","スパレックス汗蒸幕",10000,"-",2,"共同",5000],
+["10/31","入場料","スパレックス汗蒸幕",26000,"-",2,"共同",13000],
+["10/31","飲み物","自動販売機",1800,"-",2,"共同",900],
+["10/31","ツナキンパ、野菜キンパ、麺×2","マリチャン",4600,"東横INNホテル→富平市場",2,"共同",2300],
+["10/31","T-moneyカード、T-money利用料","T-money",12000,"カード(5,000)+利用料(7,000)",1,"個人",12000]
+];
+function renderExpenses(){
+ var tbody=document.getElementById("expense-rows");
+ EXPENSES.forEach(function(item,index){
+  var tr=document.createElement("tr");
+  [index+1,item[0],item[1],item[2],item[3].toLocaleString("ja-JP"),item[4],item[5],item[6],item[7].toLocaleString("ja-JP")].forEach(function(value,column){
+   var td=document.createElement("td");
+   td.textContent=value;
+   if(column===4||column===8)td.className="amount";
+   if(column===6)td.className="people";
+   tr.appendChild(td);
+  });
+  tbody.appendChild(tr);
+ });
+ [["合計","494620","同行者精算額","266270"],["共同利用合計","456700","同行者負担額","228350"],["個人利用合計","37920","同行者負担額","37920"]].forEach(function(total){
+  var tr=document.createElement("tr");
+  tr.className="total-row";
+  var label=document.createElement("th");
+  label.colSpan=4;label.textContent=total[0];tr.appendChild(label);
+  var amount=document.createElement("td");
+  amount.textContent=Number(total[1]).toLocaleString("ja-JP");amount.className="amount";tr.appendChild(amount);
+  var spacer=document.createElement("td");
+  spacer.colSpan=3;spacer.textContent=total[2];tr.appendChild(spacer);
+  var share=document.createElement("td");
+  share.textContent=Number(total[3]).toLocaleString("ja-JP");share.className="amount";tr.appendChild(share);
+  tbody.appendChild(tr);
+ });
+}
 function row(r){
  var b=r[3].map(function(x){return x.indexOf("<div")===0?x:"<li>"+x+"</li>"}).join("");
  b=b.replace(/(<li>.*<\/li>)/,"<ul>$1</ul>");
@@ -98,6 +176,7 @@ function render(){
  D.forEach(function(x){h+='<section class="day"><div class="dh"><b>'+x.n+'</b><h2>'+x.h+'</h2><small>'+x.d+'</small></div>'+x.i.map(row).join("")+'</section>';});
  h+='<section class="day"><div class="dh"><b>FOOD</b><h2>食事リスト</h2></div>'+FOOD.map(row).join("")+'</section>';
  document.getElementById("main").innerHTML=h;
+ renderExpenses();
 }
 function enter(){
  var v=document.getElementById("pw").value;

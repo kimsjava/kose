@@ -37,6 +37,15 @@ details[open] summary::after{transform:rotate(90deg)}
 .body ul{margin:0;padding-left:16px}.body li{margin:2px 0}
 .note{background:var(--acs);color:var(--tx);border-radius:10px;padding:9px 12px;font-size:13px;margin:6px 0 10px}
 footer{text-align:center;color:var(--mut);font-size:12px;margin-top:30px}
+.expenses{margin-top:36px}
+.expenses h2{font-size:19px;margin:0 0 10px}
+.expense-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+.expense-table{width:100%;min-width:920px;border-collapse:collapse;font-size:13px}
+.expense-table th,.expense-table td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+.expense-table thead th{background:var(--acs);font-weight:650}
+.expense-table td.amount,.expense-table td.people{text-align:right}
+.expense-table tbody tr:last-child td{border-bottom:0}
+.expense-table .total-row th,.expense-table .total-row td{font-weight:650;background:var(--acs)}
 </style>
 </head>
 <body>
@@ -51,6 +60,15 @@ footer{text-align:center;color:var(--mut);font-size:12px;margin-top:30px}
 <header><h1>🇰🇷 4박5일 한국여행</h1><p>2026.10.31 (토) – 11.04 (수) · 인천 / 서울</p>
 <div class="legend"><span>✈️ 항공</span><span>🚇 지하철·전철</span><span>🏨 숙박</span><span>🍽️ 식사</span><span>📍 관광</span><span>🤝 만남</span><span>🚗 렌터카</span></div></header>
 <main id="main"></main>
+<section class="expenses" aria-labelledby="expenses-title">
+<h2 id="expenses-title">지출 내역</h2>
+<div class="expense-scroll" tabindex="0" aria-label="지출 내역 표, 좌우로 스크롤할 수 있습니다">
+<table class="expense-table">
+<thead><tr><th>번호</th><th>날짜</th><th>품목</th><th>상호</th><th>금액(원)</th><th>비고</th><th>인원</th><th>사용 구분</th><th>동반자 부담액(원)</th></tr></thead>
+<tbody id="expense-rows"></tbody>
+</table>
+</div>
+</section>
 <footer>항목을 눌러 상세정보를 확인하세요</footer>
 </div>
 
@@ -88,6 +106,66 @@ var D=[
 ]}
 ];
 var FOOD=[["🍽️","먹고 싶은 음식","김밥 · 비빔밥 · 해장국 · 삼겹살 · 냉면 · 이삭토스트 · 한강라면",["김밥","비빔밥","해장국","삼겹살","냉면","이삭토스트","한강라면"]]];
+var EXPENSES=[
+["11/4","롯데빼빼로","롯데마트",25920,"31,920-6000(tax free)",1,"개인",25920],
+["11/4","빵","파리바게뜨(인천공항)",14600,"-",2,"공동",7300],
+["11/4","김치찌게,순두부찌게","씨제이프레시웨이(인천공항)",23500,"-",2,"공동",11750],
+["11/3","새우김밥,짜장떡볶이,오뎅,맥주","광판팔뚝김밥",36700,"",2,"공동",18350],
+["11/3","공항철도","공항철도",26000,"-",2,"공동",13000],
+["11/3","음료수","GS25",3800,"-",2,"공동",1900],
+["11/3","양념치킨,후라이드치킨(반반)","전설의치킨",28000,"-",2,"공동",14000],
+["11/3","붕어빵","CU",5000,"-",2,"공동",2500],
+["11/3","커피","컴포즈커피",5600,"-",2,"공동",2800],
+["11/3","곰탕,씨레기해장국,육전x2","육전국밥",5900,"-",2,"공동",2950],
+["11/3","목욕탕","백상사우나",24000,"-",2,"공동",12000],
+["11/2","전복삼계탕","을지삼계탕",50000,"-",2,"공동",25000],
+["11/2","음료수","한강버스",2500,"-",2,"공동",1250],
+["11/2","물냉면,회냉면","오정동함흥집",30000,"-",2,"공동",15000],
+["11/2","관광버스","노랑풍선버스",54000,"-",2,"공동",27000],
+["11/2","제육덥밥,돈까스","정독도서관",15000,"-",2,"공동",7500],
+["11/2","검은콩두유,바나나우유","정독도서관",3600,"-",2,"공동",1800],
+["11/1","파스","CU",4300,"-",2,"공동",2150],
+["11/1","아이스크림","부엉이젤라또",33500,"장어구이디저트",2,"공동",16750],
+["11/1","음료수","GS25",1300,"-",2,"공동",650],
+["11/1","돼지감자칩스","만두야전골",5900,"-",2,"공동",2950],
+["11/1","음료수","CU",2600,"-",2,"공동",1300],
+["10/31","택시","택시",4600,"부평시장->도요코인호텔",2,"공동",2300],
+["10/31","맥주,과자,음료수","세븐일레븐",24300,"-",2,"공동",12150],
+["10/31","뼈해장국,시레기해장국","병천순대",4600,"도요코인호텔->부평시장",2,"공동",2300],
+["10/31","사진","스파렉스찜질방",5000,"-",2,"공동",2500],
+["10/31","식혜,옛날식커피,맥반석계란","스파렉스찜질방",10000,"-",2,"공동",5000],
+["10/31","입장료","스파렉스찜질방",26000,"-",2,"공동",13000],
+["10/31","음료수","자판기",1800,"-",2,"공동",900],
+["10/31","참치김밥,야채김밥,국수x2","마리짱",4600,"도요코인호텔->부평시장",2,"공동",2300],
+["10/31","T-Money카드,T-Money이용료","T-money",12000,"t-money카드(5,000)+이용료(7,000)",1,"개인",12000]
+];
+function renderExpenses(){
+  var tbody=document.getElementById("expense-rows");
+  EXPENSES.forEach(function(item,index){
+    var tr=document.createElement("tr");
+    [index+1,item[0],item[1],item[2],item[3].toLocaleString("ko-KR"),item[4],item[5],item[6],item[7].toLocaleString("ko-KR")].forEach(function(value,column){
+      var td=document.createElement("td");
+      td.textContent=value;
+      if(column===4||column===8)td.className="amount";
+      if(column===6)td.className="people";
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  [["전체 합계","494620","동반자 정산액","266270"],["공동 사용 합계","456700","동반자 부담액","228350"],["개인 사용 합계","37920","동반자 부담액","37920"]].forEach(function(total){
+    var tr=document.createElement("tr");
+    tr.className="total-row";
+    var label=document.createElement("th");
+    label.colSpan=4;label.textContent=total[0];tr.appendChild(label);
+    var amount=document.createElement("td");
+    amount.textContent=Number(total[1]).toLocaleString("ko-KR");amount.className="amount";tr.appendChild(amount);
+    var spacer=document.createElement("td");
+    spacer.colSpan=3;spacer.textContent=total[2];tr.appendChild(spacer);
+    var share=document.createElement("td");
+    share.textContent=Number(total[3]).toLocaleString("ko-KR");share.className="amount";tr.appendChild(share);
+    tbody.appendChild(tr);
+  });
+}
 function row(r){
   var b=r[3].map(function(x){return x.indexOf("<div")===0?x:"<li>"+x+"</li>"}).join("");
   b=b.replace(/(<li>.*<\/li>)/,"<ul>$1</ul>");
@@ -98,6 +176,7 @@ function render(){
   D.forEach(function(x){h+='<section class="day"><div class="dh"><b>'+x.n+'</b><h2>'+x.h+'</h2><small>'+x.d+'</small></div>'+x.i.map(row).join("")+'</section>';});
   h+='<section class="day"><div class="dh"><b>FOOD</b><h2>식사 리스트</h2></div>'+FOOD.map(row).join("")+'</section>';
   document.getElementById("main").innerHTML=h;
+  renderExpenses();
 }
 function enter(){
   var v=document.getElementById("pw").value;
