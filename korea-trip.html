@@ -152,7 +152,7 @@ function renderExpenses(){
     });
     tbody.appendChild(tr);
   });
-  [["전체 합계","494620","동반자 정산액","266270"],["공동 사용 합계","456700","동반자 부담액","228350"],["개인 사용 합계","37920","동반자 부담액","37920"]].forEach(function(total){
+  [["전체 합계","494620","최종 정산액","266270"],["공동 사용 합계","456700","1인당 금액","228350"],["개인 사용 합계","37920","동반자 1인 사용금액","37920"]].forEach(function(total){
     var tr=document.createElement("tr");
     tr.className="total-row";
     var label=document.createElement("th");

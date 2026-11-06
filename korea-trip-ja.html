@@ -152,7 +152,7 @@ function renderExpenses(){
   });
   tbody.appendChild(tr);
  });
- [["合計","494620","同行者精算額","266270"],["共同利用合計","456700","同行者負担額","228350"],["個人利用合計","37920","同行者負担額","37920"]].forEach(function(total){
+ [["合計","494620","最終精算額","266270"],["共同利用合計","456700","1人あたりの金額","228350"],["個人利用合計","37920","同行者1人分の利用額","37920"]].forEach(function(total){
   var tr=document.createElement("tr");
   tr.className="total-row";
   var label=document.createElement("th");
